@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "forge-agent-ai"
 dynamic = ["version"]
-description = "A portable, tool-driven AI coding agent for local software projects."
+description = "A general-purpose AI agent for building software and automating tasks."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { file = "LICENSE" }
@@ -36,10 +36,12 @@ forge = "forge_agent.cli.main:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
+include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["forge_agent*"]
+exclude = ["tests*"]
 
 [tool.setuptools.dynamic]
 version = { attr = "forge_agent.__version__" }
