@@ -20,21 +20,46 @@ Forge is not a cybersecurity product. It is a software development assistant.
 - Python 3.11+
 - Git for repository status and Git-based tools
 
-## Installation
+## Installation guide
 
-For local development:
+### Option 1: Install from PyPI
+
+If the package is published, install it directly with pip:
 
 ```bash
+python -m pip install forge-agent-ai
+```
+
+Then verify the CLI is available:
+
+```bash
+forge --help
+```
+
+### Option 2: Install from a cloned repository
+
+Clone the project and install it in editable mode:
+
+```bash
+git clone https://github.com/amrkarim1712-max/forge-agent.git
+cd forge-agent
 python3 -m venv .venv
 . .venv/bin/activate
+python -m pip install --upgrade pip
 python -m pip install -e ".[test]"
 ```
 
-Or use the repository helper:
+This installs the package and the test dependencies needed for local development.
+
+### Option 3: Use the helper script
+
+The repository includes an installer script:
 
 ```bash
 ./install.sh
 ```
+
+This creates a local virtual environment, installs the package in editable mode, and prints the next steps.
 
 ## Configuration and BYOK
 
