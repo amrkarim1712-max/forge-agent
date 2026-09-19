@@ -1,0 +1,21 @@
+include README.md
+include CHANGELOG.md
+include LICENSE
+include pyproject.toml
+recursive-include src/forge_agent *.py
+prune .git
+prune .venv
+prune venv
+prune tests
+prune dist
+prune build
+prune __pycache__
+prune .pytest_cache
+prune .mypy_cache
+prune .ruff_cache
+exclude .env
+exclude .env.*
+exclude .forge
+recursive-exclude .forge *
+recursive-exclude __pycache__ *
+recursive-exclude *.egg-info *
