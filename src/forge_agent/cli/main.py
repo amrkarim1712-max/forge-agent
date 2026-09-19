@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 from forge_agent import __version__
+from forge_agent.cli.setup import run_setup
 from forge_agent.config import DEFAULTS, load_settings, save_user_config, user_config_path
 from forge_agent.core.agent import Agent
 from forge_agent.core.errors import ForgeError
@@ -131,6 +132,15 @@ def _status_command(cwd: str = ".") -> int:
         return 1
 
 
+def _should_run_setup() -> bool:
+    settings = load_settings()
+    if settings.provider in {"anthropic", "gemini"}:
+        return True
+    if not settings.api_key and settings.api_key_env:
+        return True
+    return False
+
+
 def main(argv: list[str] | None = None) -> int:
     args_list = list(sys.argv[1:] if argv is None else argv)
     if args_list and args_list[0] == "config":
@@ -145,6 +155,8 @@ def main(argv: list[str] | None = None) -> int:
         return _memory_command(args_list[1] if len(args_list) > 1 else ".")
     if args_list and args_list[0] == "status":
         return _status_command(args_list[1] if len(args_list) > 1 else ".")
+    if args_list and args_list[0] == "setup":
+        return run_setup()
     if args_list and args_list[0] == "run":
         args_list = args_list[1:]
     parser = _parser()
@@ -169,6 +181,9 @@ def main(argv: list[str] | None = None) -> int:
         approve_all=args.yes,
         dry_run=args.dry_run,
     )
+    if _should_run_setup() and not args_list:
+        print("Forge is not configured yet. Starting setup...\n")
+        return run_setup()
     ui = TerminalUI()
     request = " ".join(args.request).strip()
     if not request:
